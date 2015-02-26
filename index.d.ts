@@ -18,7 +18,7 @@ declare module "opty" {
         or(optb: Option<T>): Option<T>;
         orElse(f: () => Option<T>): Option<T>;
     }
-    export declare class Some<T> implements Option<T> {
+    export class Some<T> implements Option<T> {
         private value;
         constructor(v: T);
         static wrapNull<T>(value: T): Option<T>;
@@ -40,7 +40,7 @@ declare module "opty" {
         orElse(f: () => Option<T>): Option<T>;
         toString(): string;
     }
-    export declare class None<T> implements Option<T> {
+    export class None<T> implements Option<T> {
         constructor();
         map<U>(fn: (a: T) => U): Option<U>;
         isSome(): boolean;
@@ -77,7 +77,7 @@ declare module "opty" {
         unwrapOr(optb: T): T;
         unwrapOrElse(op: (u: E) => T): T;
     }
-    export declare class Ok<T, E> implements Result<T, E> {
+    export class Ok<T, E> implements Result<T, E> {
         private value;
         constructor(v: T);
         map<U>(fn: (a: T) => U): Result<U, E>;
@@ -95,7 +95,7 @@ declare module "opty" {
         unwrap(): T;
         toString(): string;
     }
-    export declare class Err<T, E> implements Result<T, E> {
+    export class Err<T, E> implements Result<T, E> {
         private error;
         constructor(error: E);
         map<U>(fn: (a: T) => U): Result<T, E>;
