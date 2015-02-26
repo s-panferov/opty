@@ -1,6 +1,6 @@
 {
   "name": "opty",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Option and Result type ported from Rust",
   "main": "./dist/index.js",
   "typescript": {
