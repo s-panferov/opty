@@ -205,9 +205,7 @@ export class None<T> implements Option<T> {
     }
 
     unwrap(): T {
-        console.error("None.unwrap()");
         throw "None.get";
-        return null;
     }
 
     unwrapOr(def: T): T {
