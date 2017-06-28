@@ -83,9 +83,7 @@ var None = (function () {
         return fn();
     };
     None.prototype.unwrap = function () {
-        console.error("None.unwrap()");
         throw "None.get";
-        return null;
     };
     None.prototype.unwrapOr = function (def) {
         return def;
@@ -181,7 +179,7 @@ var Err = (function () {
         this.error = error;
     }
     Err.prototype.map = function (fn) {
-        return this;
+        return new Err(this.error);
     };
     Err.prototype.mapErr = function (fn) {
         return new Err(fn(this.error));

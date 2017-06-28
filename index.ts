@@ -410,8 +410,8 @@ export class Err<T, E> implements Result<T, E> {
         this.error = error;
     }
 
-    map <U>(fn: (a: T) => U): Result<T, E> {
-        return this;
+    map <U>(fn: (a: T) => U): Result<U, E> {
+        return new Err<U, E>(this.error);
     }
 
     mapErr <U>(fn: (a: E) => U): Result<T, U> {
