@@ -3,10 +3,7 @@
   "version": "0.1.2",
   "description": "Option and Result type ported from Rust",
   "main": "./dist/index.js",
-  "typescript": {
-    "main": "./index.ts",
-    "definition": "./index.d.ts"
-  },
+  "types": "./index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
