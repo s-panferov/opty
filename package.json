@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "Option and Result type ported from Rust",
   "main": "./dist/index.js",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --pretty"
   },
