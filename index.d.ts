@@ -98,7 +98,7 @@ declare module "opty" {
     export class Err<T, E> implements Result<T, E> {
         private error;
         constructor(error: E);
-        map<U>(fn: (a: T) => U): Result<T, E>;
+        map<U>(fn: (a: T) => U): Result<U, E>;
         mapErr<U>(fn: (a: E) => U): Result<T, U>;
         isOk(): boolean;
         isErr(): boolean;

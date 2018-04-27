@@ -3,12 +3,9 @@
   "version": "0.1.2",
   "description": "Option and Result type ported from Rust",
   "main": "./dist/index.js",
-  "typescript": {
-    "main": "./index.ts",
-    "definition": "./index.d.ts"
-  },
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc --pretty"
   },
   "keywords": [
     "monad",
@@ -19,8 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-ts": "^3.0.0",
     "grunt-contrib-clean": "^0.6.0",
-    "load-grunt-tasks": "^0.6.0"
+    "grunt-ts": "^3.0.0",
+    "load-grunt-tasks": "^0.6.0",
+    "typescript": "^2.8.3"
   }
 }

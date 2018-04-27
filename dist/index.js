@@ -1,228 +1,235 @@
-var Some = (function () {
-    function Some(v) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Some {
+    constructor(v) {
         this.value = v;
     }
-    Some.wrapNull = function (value) {
+    static wrapNull(value) {
         if (value == null) {
             return new None();
         }
         else {
             return new Some(value);
         }
-    };
-    Some.prototype.map = function (fn) {
-        return new Some(fn(this.value));
-    };
-    Some.prototype.isSome = function () {
-        return true;
-    };
-    Some.prototype.isNone = function () {
-        return false;
-    };
-    Some.prototype.isSomeAnd = function (fn) {
-        return fn(this.value);
-    };
-    Some.prototype.isNoneAnd = function (fn) {
-        return false;
-    };
-    Some.prototype.unwrap = function () {
-        return this.value;
-    };
-    Some.prototype.unwrapOr = function (def) {
-        return this.value;
-    };
-    Some.prototype.unwrapOrElse = function (f) {
-        return this.value;
-    };
-    Some.prototype.mapOr = function (def, f) {
-        return f(this.value);
-    };
-    Some.prototype.mapOrElse = function (def, f) {
-        return f(this.value);
-    };
-    Some.prototype.okOr = function (err) {
-        return new Ok(this.value);
-    };
-    Some.prototype.okOrElse = function (err) {
-        return new Ok(this.value);
-    };
-    Some.prototype.and = function (optb) {
-        return optb;
-    };
-    Some.prototype.andThen = function (f) {
-        return f(this.value);
-    };
-    Some.prototype.or = function (optb) {
-        return this;
-    };
-    Some.prototype.orElse = function (f) {
-        return this;
-    };
-    Some.prototype.toString = function () {
-        return "Some " + this.value;
-    };
-    return Some;
-})();
-exports.Some = Some;
-var None = (function () {
-    function None() {
     }
-    None.prototype.map = function (fn) {
-        return None._instance;
-    };
-    None.prototype.isSome = function () {
-        return false;
-    };
-    None.prototype.isNone = function () {
+    map(fn) {
+        return new Some(fn(this.value));
+    }
+    match(p) {
+        return p.some(this.value);
+    }
+    isSome() {
         return true;
-    };
-    None.prototype.isSomeAnd = function (fn) {
+    }
+    isNone() {
         return false;
-    };
-    None.prototype.isNoneAnd = function (fn) {
-        return fn();
-    };
-    None.prototype.unwrap = function () {
-        console.error("None.unwrap()");
-        throw "None.get";
-        return null;
-    };
-    None.prototype.unwrapOr = function (def) {
-        return def;
-    };
-    None.prototype.unwrapOrElse = function (f) {
-        return f();
-    };
-    None.prototype.mapOr = function (def, f) {
-        return def;
-    };
-    None.prototype.mapOrElse = function (def, f) {
-        return def();
-    };
-    None.prototype.okOr = function (err) {
-        return new Err(err);
-    };
-    None.prototype.okOrElse = function (err) {
-        return new Err(err());
-    };
-    None.prototype.and = function (optb) {
-        return None.instance();
-    };
-    None.prototype.andThen = function (f) {
-        return None.instance();
-    };
-    None.prototype.or = function (optb) {
+    }
+    isSomeAnd(fn) {
+        return fn(this.value);
+    }
+    isNoneAnd(fn) {
+        return false;
+    }
+    unwrap() {
+        return this.value;
+    }
+    unwrapOr(def) {
+        return this.value;
+    }
+    unwrapOrElse(f) {
+        return this.value;
+    }
+    mapOr(def, f) {
+        return f(this.value);
+    }
+    mapOrElse(def, f) {
+        return f(this.value);
+    }
+    okOr(err) {
+        return new Ok(this.value);
+    }
+    okOrElse(err) {
+        return new Ok(this.value);
+    }
+    and(optb) {
         return optb;
-    };
-    None.prototype.orElse = function (f) {
-        return f();
-    };
-    None.instance = function () {
+    }
+    andThen(f) {
+        return f(this.value);
+    }
+    or(optb) {
+        return this;
+    }
+    orElse(f) {
+        return this;
+    }
+    toString() {
+        return "Some " + this.value;
+    }
+}
+exports.Some = Some;
+class None {
+    constructor() {
+    }
+    match(p) {
+        if (typeof p.none === 'function') {
+            return p.none();
+        }
+        else {
+            return p.none;
+        }
+    }
+    map(fn) {
         return None._instance;
-    };
-    None.prototype.toString = function () {
+    }
+    isSome() {
+        return false;
+    }
+    isNone() {
+        return true;
+    }
+    isSomeAnd(fn) {
+        return false;
+    }
+    isNoneAnd(fn) {
+        return fn();
+    }
+    unwrap() {
+        throw "None.get";
+    }
+    unwrapOr(def) {
+        return def;
+    }
+    unwrapOrElse(f) {
+        return f();
+    }
+    mapOr(def, f) {
+        return def;
+    }
+    mapOrElse(def, f) {
+        return def();
+    }
+    okOr(err) {
+        return new Err(err);
+    }
+    okOrElse(err) {
+        return new Err(err());
+    }
+    and(optb) {
+        return None.instance();
+    }
+    andThen(f) {
+        return None.instance();
+    }
+    or(optb) {
+        return optb;
+    }
+    orElse(f) {
+        return f();
+    }
+    static instance() {
+        return None._instance;
+    }
+    toString() {
         return "None";
-    };
-    None._instance = new None();
-    return None;
-})();
+    }
+}
+None._instance = new None();
 exports.None = None;
-var Ok = (function () {
-    function Ok(v) {
+class Ok {
+    constructor(v) {
         this.value = v;
     }
-    Ok.prototype.map = function (fn) {
+    map(fn) {
         return new Ok(fn(this.value));
-    };
-    Ok.prototype.mapErr = function (fn) {
+    }
+    mapErr(fn) {
         return new Ok(this.value);
-    };
-    Ok.prototype.isOk = function () {
+    }
+    isOk() {
         return true;
-    };
-    Ok.prototype.isErr = function () {
+    }
+    isErr() {
         return false;
-    };
-    Ok.prototype.ok = function () {
+    }
+    ok() {
         return new Some(this.value);
-    };
-    Ok.prototype.err = function () {
+    }
+    err() {
         return None.instance();
-    };
-    Ok.prototype.and = function (res) {
+    }
+    and(res) {
         return res;
-    };
-    Ok.prototype.andThen = function (op) {
+    }
+    andThen(op) {
         return op(this.value);
-    };
-    Ok.prototype.or = function (res) {
+    }
+    or(res) {
         return this;
-    };
-    Ok.prototype.orElse = function (op) {
+    }
+    orElse(op) {
         return new Ok(this.value);
-    };
-    Ok.prototype.unwrapOr = function (optb) {
+    }
+    unwrapOr(optb) {
         return this.value;
-    };
-    Ok.prototype.unwrapOrElse = function (op) {
+    }
+    unwrapOrElse(op) {
         return this.value;
-    };
-    Ok.prototype.unwrap = function () {
+    }
+    unwrap() {
         return this.value;
-    };
-    Ok.prototype.toString = function () {
+    }
+    toString() {
         return "Some " + this.value;
-    };
-    return Ok;
-})();
+    }
+}
 exports.Ok = Ok;
-var Err = (function () {
-    function Err(error) {
+class Err {
+    constructor(error) {
         this.error = error;
     }
-    Err.prototype.map = function (fn) {
-        return this;
-    };
-    Err.prototype.mapErr = function (fn) {
+    map(fn) {
+        return new Err(this.error);
+    }
+    mapErr(fn) {
         return new Err(fn(this.error));
-    };
-    Err.prototype.isOk = function () {
+    }
+    isOk() {
         return false;
-    };
-    Err.prototype.isErr = function () {
+    }
+    isErr() {
         return false;
-    };
-    Err.prototype.ok = function () {
+    }
+    ok() {
         return None.instance();
-    };
-    Err.prototype.err = function () {
+    }
+    err() {
         return new Some(this.error);
-    };
-    Err.prototype.and = function (res) {
+    }
+    and(res) {
         return new Err(this.error);
-    };
-    Err.prototype.andThen = function (op) {
+    }
+    andThen(op) {
         return new Err(this.error);
-    };
-    Err.prototype.or = function (res) {
+    }
+    or(res) {
         return res;
-    };
-    Err.prototype.orElse = function (op) {
+    }
+    orElse(op) {
         return op(this.error);
-    };
-    Err.prototype.unwrapOr = function (optb) {
+    }
+    unwrapOr(optb) {
         return optb;
-    };
-    Err.prototype.unwrapOrElse = function (op) {
+    }
+    unwrapOrElse(op) {
         return op(this.error);
-    };
-    Err.prototype.unwrap = function () {
+    }
+    unwrap() {
         throw "Err.get";
-    };
-    Err.prototype.toString = function () {
+    }
+    toString() {
         return "None";
-    };
-    return Err;
-})();
+    }
+}
 exports.Err = Err;
 //# sourceMappingURL=index.js.map

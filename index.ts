@@ -1,4 +1,11 @@
+export interface MatchPattern<T, S, N> {
+  some: (_: T) => S
+  none: (() => N) | N
+}
+
 export interface Option<T> {
+    match<S, N>(p: MatchPattern<T, S, N>): S | N;
+
     /**
      * Returns true if the option is a Some value
      */
@@ -113,6 +120,10 @@ export class Some<T> implements Option<T> {
         return new Some(fn(this.value))
     }
 
+    match<S, N>(p: MatchPattern<T, S, N>): S {
+        return p.some(this.value)
+    }
+
     isSome(): boolean {
         return true;
     }
@@ -182,6 +193,14 @@ export class None<T> implements Option<T> {
 
     constructor() {
 
+    }
+
+    match<S, N>(p: MatchPattern<never, S, N>): N {
+        if (typeof p.none === 'function') {
+            return p.none();
+        } else {
+            return p.none;
+        }
     }
 
     map <U>(fn: (a: T) => U): Option<U> {
@@ -410,8 +429,8 @@ export class Err<T, E> implements Result<T, E> {
         this.error = error;
     }
 
-    map <U>(fn: (a: T) => U): Result<T, E> {
-        return this;
+    map <U>(fn: (a: T) => U): Result<U, E> {
+        return new Err<U, E>(this.error);
     }
 
     mapErr <U>(fn: (a: E) => U): Result<T, U> {
